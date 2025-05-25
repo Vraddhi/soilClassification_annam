@@ -4,6 +4,7 @@ import pandas as pd
 
 df = pd.read_csv('/content/drive/MyDrive/soil_classification-2025/train_labels.csv')
 
+# Maps textual labels to numeric classes
 label_mapping = {
     'Alluvial soil': 0,
     'Black Soil': 1,
@@ -50,17 +51,17 @@ class SoilDataset(Dataset):
 
 
 transform = transforms.Compose([
-    transforms.Resize((224, 224)),
+    transforms.Resize((224, 224)), # Resized to match ResNet18 input
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                         std=[0.229, 0.224, 0.225])
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], 
+                         std=[0.229, 0.224, 0.225])  # Normalizes with ImageNet mean & std
 ])
 
 
 
 from sklearn.model_selection import train_test_split
 
-train_df, val_df = train_test_split(df, test_size=0.2, stratify=df['label_enc'], random_state=42)
+train_df, val_df = train_test_split(df, test_size=0.2, stratify=df['label_enc'], random_state=42) #Train-Validation Split
 
 
 
